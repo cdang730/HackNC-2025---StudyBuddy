@@ -1,6 +1,5 @@
 import streamlit as st
-from backend import save_user
-from backend import find_match
+from backend import save_user, find_match
 
 st.title("Studdy Buddy Planner")
 col1, col2 = st.columns(2)
