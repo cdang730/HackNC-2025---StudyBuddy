@@ -18,8 +18,8 @@ def save_user(data, filename = "users.csv"):
         writer.writerow([data["name"], data["subject"], data["mode"], data["time"]])
 
 
-def load_users(filename = "usrs.csv"):
-    """Return a list of all usrs as dictionaries"""
+def load_users(filename = "users.csv"):
+    """Return a list of all users as dictionaries."""
     users = []
 
     if os.path.exists(filename):
@@ -46,14 +46,21 @@ def find_match(subject, mode, time, name, filename = "users.csv"):
 
 
 if __name__ == "__main__":
-    # add some prefill tutors for student to choose
-    save_user({"name": "Tutor1", "subject": "Math", "mode": "Virtual", "time": "Evening"})
-    save_user({"name": "Tutor2", "subject": "CS", "mode": "In-person", "time": "Afternoon"})
-    save_user({"name": "Tutor3", "subject": "History", "mode": "In-person", "time": "Afternoon"})
-    save_user({"name": "Tutor4", "subject": "Science", "mode": "In-person", "time": "Evening"})
-    save_user({"name": "Tutor5", "subject": "English", "mode": "Virtual", "time": "Morning"})
+    filename = "users.csv"
 
-    print("All users: ", load_users())
-
-    result = find_match("Math", "Virtual", "Evening", "Dorothy")
-    print("Matches for Alice: ", result)
+    # Only prefill tutors if the users file doesn't exist or is empty.
+    existing_users = load_users(filename)
+    if not existing_users:
+        # add some prefill tutors for student to choose
+        prefill = [
+            {"name": "Tutor1", "subject": "Math", "mode": "Virtual", "time": "Evening"},
+            {"name": "Tutor2", "subject": "CS", "mode": "In-person", "time": "Afternoon"},
+            {"name": "Tutor3", "subject": "History", "mode": "In-person", "time": "Afternoon"},
+            {"name": "Tutor4", "subject": "Science", "mode": "In-person", "time": "Evening"},
+            {"name": "Tutor5", "subject": "English", "mode": "Virtual", "time": "Morning"},
+        ]
+        for tutor in prefill:
+            save_user(tutor, filename)
+        print(f"Prefilled {len(prefill)} tutors into '{filename}'.")
+    else:
+        print(f"Users file '{filename}' already has {len(existing_users)} entries; skipping prefill.")
