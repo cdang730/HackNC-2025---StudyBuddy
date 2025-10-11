@@ -5,6 +5,16 @@ from pathlib import Path
 # Load and apply custom CSS from the same directory as this file.
 st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
 
+if not st.user.is_logged_in:
+    if st.button("Login with Google"):
+        st.login()
+    st.stop()
+
+
+if st.button("Log out"):
+    st.logout()
+st.markdown(f"Welcome! {st.user.name}")
+
 st.title("Studdy Buddy Planner")
 col1, col2 = st.columns(2)
 with col1: subject = st.selectbox("Subject: ", ["Math", "English", "History", "Science", "CS"])
