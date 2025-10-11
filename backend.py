@@ -45,7 +45,7 @@ def find_match(subject, mode, time, name, filename = "users.csv"):
     return matches
 
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     filename = "users.csv"
 
     # Only prefill tutors if the users file doesn't exist or is empty.
@@ -64,3 +64,4 @@ if __name__ == "__main__":
         print(f"Prefilled {len(prefill)} tutors into '{filename}'.")
     else:
         print(f"Users file '{filename}' already has {len(existing_users)} entries; skipping prefill.")
+"""
