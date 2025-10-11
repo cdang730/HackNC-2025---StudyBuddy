@@ -1,8 +1,8 @@
 name,subject,mode,time
 Tutor1,Math,Virtual,Evening
-Tutor2,CS,In-person,Afternoon
-Tutor3,History,In-person,Afternoon
-Tutor4,Science,In-person,Evening
+Tutor2,CS,In-Person,Afternoon
+Tutor3,History,In-Person,Afternoon
+Tutor4,Science,In-Person,Evening
 Tutor5,English,Virtual,Morning
 grace,"['English', 'History']",Virtual,Morning
 grace,"['English', 'History']",Virtual,Morning
