@@ -12,10 +12,10 @@ def save_user(data, filename = "users.csv"):
 
         # check if the file exists
         if not file_exist:
-            writer.writerow(["name", "subject", "mode", "time"])
+            writer.writerow(["name", "subject", "mode", "time", "contact"])
 
         # write the user data row
-        writer.writerow([data["name"], data["subject"], data["mode"], data["time"]])
+        writer.writerow([data["name"], data["subject"], data["mode"], data["time"], data["contact"]])
 
 
 def load_users(filename = "users.csv"):
@@ -30,7 +30,7 @@ def load_users(filename = "users.csv"):
     return users
 
 
-def find_match(subject, mode, time, name, filename = "users.csv"):
+def find_match(subject, mode, time, name, contact, filename = "users.csv"):
     """Return users who have the same subject mode and time"""
     users = load_users(filename)
     matches = []
@@ -39,7 +39,8 @@ def find_match(subject, mode, time, name, filename = "users.csv"):
         if (user["subject"] == subject and
             user ["mode"] == mode and
             user ["time"] == time and
-            user ["name"] != name):
+            user ["name"] != name and
+            user ["contact"] != contact):
             matches.append(user)
 
     return matches

@@ -11,16 +11,18 @@ with col3: time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening
 with col4: name = st.text_input("Enter your name: ")
 with col5: privacy = st.selectbox("Do you want others to find you? ", ["Yes", "No"])
 
+contact = st.text_input("Contact information: ")
+
 
 button = st.button("Find Match")
 if button:
     if privacy == "Yes":
-        new_user = {"name": name, "subject": subject, "time": time, "mode": mode}
+        new_user = {"name": name, "subject": subject, "time": time, "mode": mode, "contact": contact}
         save_user(new_user)
-    matches = find_match(subject, mode, time, name)
+    matches = find_match(subject, mode, time, name, contact)
     if matches:
         st.write("You have matches!")
         for m in matches:
-            st.write(m["name"], "wants to study", m["subject"], "in the ", m["time"].lower(), "(", m["mode"], ")")
+            st.write(m["name"], "wants to study", m["subject"], "in the ", m["time"].lower(), "(", m["mode"], "), Contact: ", m["contact"])
     elif not matches:
         st.write("Sorry, no matches yet. Come back later!")
