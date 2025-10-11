@@ -1,5 +1,4 @@
-# HackNC-2025---StudyBuddy-
-# **📚 Study Buddy Finder**  
+# HackNC-2025---StudyBuddy-  
 HackNC 2025 — Beginner & Community Track
 
 
