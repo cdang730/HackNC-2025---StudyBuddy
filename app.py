@@ -1,5 +1,9 @@
 import streamlit as st
 from backend import save_user, find_match
+from pathlib import Path
+
+# Load and apply custom CSS from the same directory as this file.
+st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
 
 st.title("Studdy Buddy Planner")
 col1, col2 = st.columns(2)
@@ -26,3 +30,4 @@ if button:
             st.write(m["name"], "wants to study", m["subject"], "in the ", m["time"].lower(), "(", m["mode"], "), Contact: ", m["contact"])
     elif not matches:
         st.write("Sorry, no matches yet. Come back later!")
+
