@@ -149,22 +149,24 @@ elif st.session_state.page == "Delete Info":
 
         username = st.text_input("Enter your username to list your entries:")
 
-        if st.button("Show my entries") and username.strip():
+        if st.button("Show my entries", key="show_entries") and username.strip():
             entries = get_user_info_with_index(username.strip())
             if not entries:
                 st.info("No entries found for that username.")
             else:
                 st.write(f"Found {len(entries)} entries for {username.strip()}:")
-                for idx, row in entries:
+                for session in entries:
+                    # session is a dict from Supabase with an 'id'
+                    row_id = session.get("id")
                     cols = st.columns([6, 1])
                     with cols[0]:
                         st.write(
-                            f"Subject: {row.get('subject')} | Mode: {row.get('mode')} | "
-                            f"Time: {row.get('time')} | Contact: {row.get('contact')}"
+                            f"Subject: {session.get('subject')} | Mode: {session.get('mode')} | "
+                            f"Time: {session.get('time')} | Contact: {session.get('contact')}"
                         )
                     with cols[1]:
-                        if st.button(f"Delete {idx}"):
-                            if delete_info_by_index(idx):
+                        if st.button("Delete", key=f"delete_{row_id}"):
+                            if delete_info_by_index(row_id):
                                 st.success("✅ Deleted entry.")
                                 st.rerun()
                             else:
