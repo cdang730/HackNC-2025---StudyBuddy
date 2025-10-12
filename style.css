@@ -1,6 +1,7 @@
 body, .stApp {
     background-color: #00bfff !important;
     color: white !important;
+    text-align: center;
     
 }
 h1 {
@@ -8,6 +9,5 @@ h1 {
     color: darkorchid !important;
 }
 .st-key-login_button {
-    background-color: #00bfff !important;
-    color: aliceblue !important;
+    text-align: center;
 }
