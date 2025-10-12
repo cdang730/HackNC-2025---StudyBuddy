@@ -1,4 +1,15 @@
-h1, h2 {
+body, .stApp {
+    background-color: #00bfff !important;
+    color: white !important;
+    text-align: center !important;
+    
+}
+div.stButton, .stApp {
+    justify-content: center !important;
+    margin: 0 auto !important;
+    background-color: blue !important;
+}
+h1 {
     font-style: oblique !important;
     color: darkorchid !important;
 }
