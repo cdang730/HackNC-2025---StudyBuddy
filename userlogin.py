@@ -1,6 +1,7 @@
 import json
 import hashlib
 from pathlib import Path
+import os
 
 
 # File paths
@@ -52,22 +53,16 @@ def login(username: str, master_password: str) -> bool:
 
 def main() -> None:
     while True:
-        action = input("Do you want to (r)egister or (l)ogin?\n").strip().lower()
+        action = input("Do you want to (r)egister or (l)ogin?\n")
 
         if action == "r":
-            username = input("Enter new username: ").strip()
-            password = input("Enter master password: ").strip()
+            username = input("Enter new username: ")
+            password = input("Enter master password: ")
             register_user(username, password)
         elif action == "l":
-            username = input("Enter username: ").strip()
-            password = input("Enter master password: ").strip()
-            # attempt login and repeat until successful or user cancels
-            success = login(username, password)
-            if success:
-                break
-            else:
-                # allow retry or go back to register/login prompt
-                continue
+            username = input("Enter username: ")
+            password = input("Enter master password: ")
+            break
         else:
             print("Invalid option. Please type r or l")
 
