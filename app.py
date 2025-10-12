@@ -8,11 +8,13 @@ st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html
 if not st.user.is_logged_in:
     if st.button("Login with Google"):
         st.login()
+        st.stop()
     elif st.button("Login with Password"):
         import login_page as app_module
         if hasattr(app_module, "main"):
             app_module.main()
-    # st.stop()
+
+        
 
 
 if st.button("Log out"):
