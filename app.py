@@ -151,7 +151,7 @@ elif st.session_state.page == "Delete Info":
         st.title("🗑️ Delete Your Saved Entries")
 
         username = st.text_input("Enter your username to list your entries:")
-        if st.button("Show my entries") and username.strip():
+        if st.button("Show my entries") and username.strip() and correct_user:
             entries = get_user_info_with_index(username.strip())
             if not entries:
                 st.info("No entries found for that username.")
