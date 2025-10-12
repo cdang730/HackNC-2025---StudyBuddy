@@ -1,12 +1,13 @@
 body, .stApp {
     background-color: #00bfff !important;
     color: white !important;
-    text-align: center;
+    text-align: center !important;
     
 }
-.stButton {
+button[kind="primary"] {
     justify-content: center !important;
     margin: 0 auto !important;
+    background-color: blue;
 }
 h1 {
     font-style: oblique !important;
