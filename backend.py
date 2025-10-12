@@ -51,6 +51,55 @@ def find_match(subject, mode, time, name, contact, filename = "users.csv"):
 
     return matches
 
+def get_user_info(name, filename = "users.csv"):
+    """Return all entires for a certain name."""
+    past_info = []
+    if os.path.exists(filename):
+        with open(filename, newline = '', encoding = 'utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                if row["name"].lower() == name.lower():
+                    past_info.append(row)
+
+    return past_info
+
+
+def delete_info_by_index(index: int, filename: str = "users.csv") -> bool:
+    """Delete a row by its zero-based index (order in the CSV file, excluding header).
+
+    Returns True if deletion succeeded, False otherwise.
+    """
+    if not os.path.exists(filename):
+        return False
+
+    users = load_users(filename)
+    if index < 0 or index >= len(users):
+        return False
+
+    # Remove the row at the given index
+    users.pop(index)
+
+    # Write back preserving contact field
+    with open(filename, "w", newline='', encoding='utf-8') as file:
+        fieldnames = ["name", "subject", "mode", "time", "contact"]
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(users)
+
+    return True
+
+
+def get_user_info_with_index(name, filename = "users.csv"):
+    """Return a list of (index, row) tuples for entries that match `name` (case-insensitive)."""
+    results = []
+    users = load_users(filename)
+    for i, row in enumerate(users):
+        if row.get("name", "").lower() == name.lower():
+            results.append((i, row))
+    return results
+
+
+
 
 
 # No need prefill anymore
