@@ -31,7 +31,7 @@ def switch_page(new_page):
         st.session_state.page = new_page
         # no need to st.rerun() — Streamlit auto-refreshes after a button press
     else:
-        st.warning("⚠️ Please log in first to access this page.")
+        st.warning("Please log in first to access this page.")
 
 
 
@@ -42,13 +42,12 @@ st.sidebar.title("Navigation")
 st.sidebar.button("🏠 Login", on_click=lambda: switch_page("Login"))
 st.sidebar.button("🔍 Find Buddy", on_click=lambda: switch_page("Find Buddy"))
 st.sidebar.button("🗑️ Delete Info", on_click=lambda: switch_page("Delete Info"))
-
-correct_user: bool = True
 # ----------------------
 # PAGE: LOGIN (Both Options)
 # ----------------------
+correct_user: bool = True
 if st.session_state.page == "Login":
-    st.title("🔐 Study Buddy Planner Login")
+    st.title("Study Buddy Planner Login")
 
     # Create two login sections: Google and Password
     st.subheader("Choose your login method")
@@ -80,9 +79,9 @@ if st.session_state.page == "Login":
             if st.button("Login"):
                 if login(username.strip(), password.strip()):
                     st.session_state.logged_in_user = username.strip()
-                    st.success(f"✅ Welcome, {username.strip()}!")
+                    st.success(f"Welcome, {username.strip()}!")
                 else:
-                    st.error("❌ Invalid username or password.")
+                    st.error("Invalid username or password.")
         with col_b:
             if st.button("Sign up"):
                 register_user(username.strip(), password.strip())
@@ -97,6 +96,8 @@ if st.session_state.page == "Login":
 # ----------------------
 # PAGE: FIND BUDDY
 # ----------------------
+
+
 
 elif st.session_state.page == "Find Buddy":
     if is_logged_in():
@@ -115,9 +116,10 @@ elif st.session_state.page == "Find Buddy":
         with col3:
             time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
         with col4:
-            name = st.text_input("Enter your name:")
-            if current_user_name != name:
-                correct_user = False
+            # Prefill with the logged-in name and compare strings
+            user_default = (current_user_name() or "").strip()
+            name = st.text_input("Enter your name:", value=user_default)
+            correct_user = (name.strip() == user_default)
         with col5:
             privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
 
@@ -129,7 +131,7 @@ elif st.session_state.page == "Find Buddy":
                 save_user(new_user)
             matches = find_match(subject, mode, time, name, contact)
             if matches:
-                st.success("🎯 You have matches!")
+                st.success("You have matches!")
                 for m in matches:
                     st.write(
                         f"{m['name']} wants to study {m['subject']} in the {m['time'].lower()} "
@@ -148,7 +150,7 @@ elif st.session_state.page == "Find Buddy":
 # ----------------------
 elif st.session_state.page == "Delete Info":
     if is_logged_in():
-        st.title("🗑️ Delete Your Saved Entries")
+        st.title("Delete Your Saved Entries")
 
         username = st.text_input("Enter your username to list your entries:")
         if st.button("Show my entries") and username.strip() and correct_user:
