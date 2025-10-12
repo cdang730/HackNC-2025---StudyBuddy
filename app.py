@@ -9,7 +9,8 @@ if not st.user.is_logged_in:
     if st.button("Login with Google"):
         st.login()
     elif st.button("Login with Password"):
-        st.switch_page("login_page.py")
+        st.markdown("---")
+        import login_page
     st.stop()
 
 
