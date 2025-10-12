@@ -36,5 +36,3 @@ def main():
                 st.info("App module imported — implement `main()` in app.py to render the app here.")
         except Exception as e:
             st.error(f"Could not open app: {e}")
-
-    st.stop()
