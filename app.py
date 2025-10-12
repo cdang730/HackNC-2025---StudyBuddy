@@ -43,7 +43,7 @@ st.sidebar.button("🏠 Login", on_click=lambda: switch_page("Login"))
 st.sidebar.button("🔍 Find Buddy", on_click=lambda: switch_page("Find Buddy"))
 st.sidebar.button("🗑️ Delete Info", on_click=lambda: switch_page("Delete Info"))
 
-
+correct_user: bool = True
 # ----------------------
 # PAGE: LOGIN
 # ----------------------
@@ -90,6 +90,7 @@ if st.session_state.page == "Login":
 # ----------------------
 # PAGE: FIND BUDDY
 # ----------------------
+
 elif st.session_state.page == "Find Buddy":
     if is_logged_in():
         st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
@@ -114,6 +115,8 @@ elif st.session_state.page == "Find Buddy":
             time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
         with col4:
             name = st.text_input("Enter your name:")
+            if current_user_name != name:
+                correct_user = False
         with col5:
             privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
 
@@ -147,7 +150,7 @@ elif st.session_state.page == "Delete Info":
         st.title("🗑️ Delete Your Saved Entries")
 
         username = st.text_input("Enter your username to list your entries:")
-        if st.button("Show my entries") and username.strip():
+        if st.button("Show my entries") and username.strip() and correct_user:
             entries = get_user_info_with_index(username.strip())
             if not entries:
                 st.info("No entries found for that username.")
@@ -167,6 +170,8 @@ elif st.session_state.page == "Delete Info":
                                 st.rerun()
                             else:
                                 st.error("❌ Failed to delete entry. It may have already been removed.")
+        elif st.button("Show my entries") and username.strip() and not correct_user:
+            st.write("Please input your name correctly.")
     else:
         st.session_state.page = "Login"
         st.warning("⚠️ Please log in first to access this page.")
