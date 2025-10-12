@@ -34,14 +34,20 @@ def find_match(subject, mode, time, name, contact, filename = "users.csv"):
     """Return users who have the same subject mode and time"""
     users = load_users(filename)
     matches = []
-
+    # Use a set to track already-seen users (by name+contact) so we only return unique matches.
+    seen = set()
     for user in users:
-        if (user["subject"] == subject and
-            user ["mode"] == mode and
-            user ["time"] == time and
-            user ["name"] != name and
-            user ["contact"] != contact):
-            matches.append(user)
+        # Use .get to avoid KeyError if some rows don't include optional fields like 'contact'
+        if (user.get("subject") == subject and
+            user.get("mode") == mode and
+            user.get("time") == time and
+            user.get("name") != name and
+            user.get("contact") != contact):
+
+            key = (user.get("name"), user.get("contact"))
+            if key not in seen:
+                seen.add(key)
+                matches.append(user)
 
     return matches
 
