@@ -116,10 +116,7 @@ elif st.session_state.page == "Find Buddy":
         with col3:
             time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
         with col4:
-            # Prefill with the logged-in name and compare strings
-            user_default = (current_user_name() or "").strip()
-            name = st.text_input("Enter your name:", value=user_default)
-            correct_user = (name.strip() == user_default)
+            name = st.text_input("Enter your name:")
         with col5:
             privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
 
