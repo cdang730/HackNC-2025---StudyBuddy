@@ -31,7 +31,7 @@ def switch_page(new_page):
         st.session_state.page = new_page
         # no need to st.rerun() — Streamlit auto-refreshes after a button press
     else:
-        st.warning("⚠️ Please log in first to access this page.")
+        st.warning("Please log in first to access this page.")
 
 
 
@@ -39,16 +39,16 @@ def switch_page(new_page):
 # SIDEBAR NAVIGATION
 # ----------------------
 st.sidebar.title("Navigation")
-st.sidebar.button("🏠 Login", on_click=lambda: switch_page("Login"))
-st.sidebar.button("🔍 Find Buddy", on_click=lambda: switch_page("Find Buddy"))
-st.sidebar.button("🗑️ Delete Info", on_click=lambda: switch_page("Delete Info"))
+st.sidebar.button("Login", on_click=lambda: switch_page("Login"))
+st.sidebar.button("Find Buddy", on_click=lambda: switch_page("Find Buddy"))
+st.sidebar.button("Delete Info", on_click=lambda: switch_page("Delete Info"))
 
 
 # ----------------------
 # PAGE: LOGIN
 # ----------------------
 if st.session_state.page == "Login":
-    st.title("🔐 Study Buddy Planner Login")
+    st.title("Study Buddy Planner Login")
 
     # Create two login sections: Google and Password
     st.subheader("Choose your login method")
@@ -57,20 +57,20 @@ if st.session_state.page == "Login":
 
     # --- Google Login ---
     with col1:
-        st.markdown("### 🌐 Google Sign-In")
+        st.markdown("### Google Sign-In")
         if hasattr(st, "user") and not st.user.is_logged_in:
             if st.button("Login with Google"):
                 st.login()
             st.info("Sign in using your Google account.")
         elif hasattr(st, "user") and st.user.is_logged_in:
-            st.success(f"✅ Logged in as {st.user.name}")
+            st.success(f"Logged in as {st.user.name}")
             if st.button("Log out"):
                 st.logout()
                 st.experimental_rerun()
 
     # --- Username/Password Login ---
     with col2:
-        st.markdown("### 🔑 Password Login")
+        st.markdown("### Password Login")
 
         username = st.text_input("Username:")
         password = st.text_input("Password:", type="password")
@@ -80,13 +80,13 @@ if st.session_state.page == "Login":
             if st.button("Login"):
                 if login(username.strip(), password.strip()):
                     st.session_state.logged_in_user = username.strip()
-                    st.success(f"✅ Welcome, {username.strip()}!")
+                    st.success(f"Welcome, {username.strip()}!")
                 else:
-                    st.error("❌ Invalid username or password.")
+                    st.error("Invalid username or password.")
         with col_b:
             if st.button("Sign up"):
                 register_user(username.strip(), password.strip())
-                st.success("🎉 Account created! You can now log in.")
+                st.success("Account created! You can now log in.")
 
     # --- Info after login ---
     if is_logged_in():
@@ -100,7 +100,7 @@ if st.session_state.page == "Login":
 elif st.session_state.page == "Find Buddy":
     if is_logged_in():
         st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
-        st.title("🧑‍🤝‍🧑 Find Your Study Buddy")
+        st.title("Find Your Study Buddy")
 
         st.markdown(f"Welcome, **{current_user_name()}**!")
 
@@ -145,7 +145,7 @@ elif st.session_state.page == "Find Buddy":
 # ----------------------
 elif st.session_state.page == "Delete Info":
     if is_logged_in():
-        st.title("🗑️ Delete Your Saved Entries")
+        st.title("Delete Your Saved Entries")
 
         # Persist username and whether to show entries across reruns
         show_entries = st.session_state.get("show_entries", False)
@@ -179,10 +179,10 @@ elif st.session_state.page == "Delete Info":
                             if row_id is None:
                                 st.error("Missing row ID.")
                             elif delete_info_by_index(row_id):
-                                st.success("✅ Deleted entry.")
+                                st.success("Deleted entry.")
                                 st.rerun()  # reload the list after deletion
                             else:
-                                st.error("❌ Failed to delete entry.")
+                                st.error("Failed to delete entry.")
 
         # Optional: back to main list reset
         if st.button("← Back"):
