@@ -6,7 +6,7 @@ from pathlib import Path
 st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
 
 if not st.user.is_logged_in:
-    st.header("Welcome to Study Buddy UNC!")
+    st.title("Welcome to Study Buddy UNC!")
     st.write("Please login with Google.")
     if st.button("Login with Google", key="login_button"):
         st.login()

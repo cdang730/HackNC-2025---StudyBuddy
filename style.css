@@ -8,6 +8,6 @@ h1 {
     color: darkorchid !important;
 }
 .st-key-login_button {
-    background-color: #00bfff;
-    color: aliceblue;
+    background-color: #00bfff !important;
+    color: aliceblue !important;
 }
