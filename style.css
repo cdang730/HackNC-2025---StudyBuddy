@@ -4,11 +4,11 @@ body, .stApp {
     text-align: center !important;
     
 }
-div.stButton, .stApp {
-    justify-content: center !important;
-    margin: 0 auto !important;
-    background-color: blue !important;
+
+.stButton {
+    color:cornflowerblue !important;
 }
+
 h1 {
     font-style: oblique !important;
     color: darkorchid !important;
