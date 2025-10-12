@@ -100,6 +100,7 @@ if st.session_state.page == "Login":
 
 
 elif st.session_state.page == "Find Buddy":
+    correct_user: bool = True
     if is_logged_in():
         st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
         st.title("🧑‍🤝‍🧑 Find Your Study Buddy")
@@ -117,6 +118,8 @@ elif st.session_state.page == "Find Buddy":
             time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
         with col4:
             name = st.text_input("Enter your name:")
+            if current_user_name != name:
+                correct_user = False
         with col5:
             privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
 
@@ -127,13 +130,15 @@ elif st.session_state.page == "Find Buddy":
                 new_user = {"name": name, "subject": subject, "time": time, "mode": mode, "contact": contact}
                 save_user(new_user)
             matches = find_match(subject, mode, time, name, contact)
-            if matches:
+            if matches and correct_user:
                 st.success("You have matches!")
                 for m in matches:
                     st.write(
                         f"{m['name']} wants to study {m['subject']} in the {m['time'].lower()} "
                         f"({m['mode']}), Contact: {m['contact']}"
                     )
+            elif matches and not correct_user:
+                st.write("Please input you name correctly.")
             else:
                 st.info("No matches yet. Check back later!")
     else:
