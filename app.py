@@ -13,7 +13,7 @@ if not st.user.is_logged_in:
 
 if st.button("Log out"):
     st.logout()
-st.markdown(f"Welcome! {st.user.name}")
+st.markdown(f"Welcome! Your name: {st.user.name}")
 
 st.title("Studdy Buddy Planner")
 col1, col2 = st.columns(2)
