@@ -2,13 +2,10 @@ body, .stApp {
     background-color: #00bfff !important;
     color: white !important;
     text-align: center;
-    align-items: center;
+    justify-content: center;
     
 }
 h1 {
     font-style: oblique !important;
     color: darkorchid !important;
-}
-.st-key-login_button {
-    
 }
