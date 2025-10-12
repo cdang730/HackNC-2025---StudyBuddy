@@ -15,6 +15,11 @@ if st.button("Log out"):
     st.logout()
 st.markdown(f"Welcome! Your name: {st.user.name}")
 
+col_welcome, col_manage = st.columns([3, 1])
+with col_manage:
+    if st.button("📝 Manage Sessions"):
+        st.switch_page("delete_info_page.py")
+
 st.title("Studdy Buddy Planner")
 col1, col2 = st.columns(2)
 with col1: subject = st.selectbox("Subject: ", ["Math", "English", "History", "Science", "CS"])
