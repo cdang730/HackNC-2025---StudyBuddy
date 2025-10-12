@@ -23,13 +23,16 @@ with col2: mode = st.radio("Mode: ", ["Virtual", "In-Person"])
 col3, col4, col5 = st.columns(3)
 with col3: time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
 with col4: name = st.text_input("Enter your name: ")
+correct_name: bool = True
+if name != st.user.name:
+    correct_name = False
 with col5: privacy = st.selectbox("Do you want others to find you? ", ["Yes", "No"])
 
 contact = st.text_input("Contact information: ")
 
 
 button = st.button("Find Match")
-if button:
+if button and correct_name:
     if privacy == "Yes":
         new_user = {"name": name, "subject": subject, "time": time, "mode": mode, "contact": contact}
         save_user(new_user)
@@ -40,3 +43,5 @@ if button:
             st.write(m["name"], "wants to study", m["subject"], "in the ", m["time"].lower(), "(", m["mode"], "), Contact: ", m["contact"])
     elif not matches:
         st.write("Sorry, no matches yet. Come back later!")
+elif button and not correct_name:
+    st.write("Please input your name.")
