@@ -4,7 +4,7 @@ body, .stApp {
     text-align: center !important;
     
 }
-div.stButton {
+div.stButton, .stApp {
     justify-content: center !important;
     margin: 0 auto !important;
     background-color: blue !important;
