@@ -6,6 +6,23 @@ import os
 
 def save_user(data, filename = "users.csv"):
     """save user imput data into the user file"""
+    from pathlib import Path
+    import csv as _csv
+
+    # Always write next to this file (robust against changing CWD in Streamlit)
+    path = (Path(__file__).parent / filename).resolve()
+
+    # Write header if file doesn't exist or is empty
+    need_header = (not path.exists()) or (path.stat().st_size == 0)
+
+    fieldnames = ["name", "subject", "mode", "time", "contact"]
+    row = {k: (data.get(k, "") if isinstance(data, dict) else "") for k in fieldnames}
+
+    with path.open("a", newline="", encoding="utf-8") as file:
+        writer = _csv.DictWriter(file, fieldnames=fieldnames)
+        if need_header:
+            writer.writeheader()
+        writer.writerow(row)
     file_exist = os.path.isfile(filename)
     with open(filename, "a", newline = '', encoding = 'utf-8') as file:
         writer = csv.writer(file)
