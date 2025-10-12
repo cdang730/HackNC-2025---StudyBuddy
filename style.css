@@ -1,4 +1,8 @@
-h1, h2 {
+body {
+    background-color: #00bfff !important;
+    color: white !important;
+    h1 {
     font-style: oblique !important;
     color: darkorchid !important;
+}
 }
