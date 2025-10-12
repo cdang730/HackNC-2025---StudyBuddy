@@ -168,10 +168,11 @@ elif st.session_state.page == "Delete Info":
                         if st.button("Delete", key=f"delete_{row_id}"):
                             if delete_info_by_index(row_id):
                                 st.success("✅ Deleted entry.")
-                                st.rerun()
+                                st.stop()  # Stop and re-render cleanly instead of st.rerun()
                             else:
                                 st.error("❌ Failed to delete entry. It may have already been removed.")
-    else:
-        st.session_state.page = "Login"
-        st.warning("⚠️ Please log in first to access this page.")
-        st.rerun()
+
+else:
+    st.session_state.page = "Login"
+    st.warning("⚠️ Please log in first to access this page.")
+    st.rerun()
