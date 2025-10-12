@@ -10,8 +10,7 @@ if not st.user.is_logged_in:
         st.login()
     elif st.button("Login with Password"):
         st.markdown("---")
-        import userlogin as app_module
-        app_module.main()
+        import login_page
     st.stop()
 
 
