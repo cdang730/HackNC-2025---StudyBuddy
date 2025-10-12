@@ -45,7 +45,7 @@ st.sidebar.button("🗑️ Delete Info", on_click=lambda: switch_page("Delete In
 
 
 # ----------------------
-# PAGE: LOGIN (Both Options)
+# PAGE: LOGIN
 # ----------------------
 if st.session_state.page == "Login":
     st.title("🔐 Study Buddy Planner Login")
