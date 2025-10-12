@@ -2,8 +2,12 @@ body, .stApp {
     background-color: #00bfff !important;
     color: white !important;
     text-align: center;
-    justify-content: center;
     
+}
+.stButton {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
 }
 h1 {
     font-style: oblique !important;
