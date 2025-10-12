@@ -126,6 +126,8 @@ elif st.session_state.page == "Find Buddy":
         if st.button("Find Match"):
             if current_user_name != name:
                 correct_user = False
+            elif current_user_name == name:
+                correct_user = True
             if privacy == "Yes":
                 new_user = {"name": name, "subject": subject, "time": time, "mode": mode, "contact": contact}
                 save_user(new_user)
