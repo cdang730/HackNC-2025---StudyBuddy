@@ -29,9 +29,10 @@ def switch_page(new_page):
     """Allow navigation only if logged in."""
     if is_logged_in():
         st.session_state.page = new_page
-        st.rerun()
+        # no need to st.rerun() — Streamlit auto-refreshes after a button press
     else:
         st.warning("⚠️ Please log in first to access this page.")
+
 
 
 # ----------------------
