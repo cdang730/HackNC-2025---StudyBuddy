@@ -9,30 +9,30 @@ from userlogin import register_user, login
 if "page" not in st.session_state:
     st.session_state.page = "Login"
 
-# Track password-based login separately
 if "logged_in_user" not in st.session_state:
     st.session_state.logged_in_user = None
 
 
 def is_logged_in():
-    """Return True if user logged in via either Google or password."""
+    """True if logged in via password or Google."""
     return bool(st.session_state.logged_in_user or (hasattr(st, "user") and st.user.is_logged_in))
 
 
 def current_user_name():
-    """Return current user's display name (Google name or username)."""
+    """Return the display name of the current user."""
     if hasattr(st, "user") and st.user.is_logged_in:
         return st.user.name
     return st.session_state.logged_in_user
 
 
 def switch_page(new_page):
-    """Switch only if logged in."""
+    """Allow navigation only if logged in."""
     if is_logged_in():
         st.session_state.page = new_page
-        st.rerun()
+        # no need to st.rerun() — Streamlit auto-refreshes after a button press
     else:
         st.warning("⚠️ Please log in first to access this page.")
+
 
 
 # ----------------------
@@ -45,46 +45,53 @@ st.sidebar.button("🗑️ Delete Info", on_click=lambda: switch_page("Delete In
 
 correct_user: bool = True
 # ----------------------
-# PAGE: LOGIN
+# PAGE: LOGIN (Both Options)
 # ----------------------
 if st.session_state.page == "Login":
-    st.title("Study Buddy Planner - Login")
+    st.title("🔐 Study Buddy Planner Login")
 
-    # --- Google Sign-in Section (works on Streamlit Cloud) ---
-    if hasattr(st, "user") and not st.user.is_logged_in:
-        st.subheader("🔐 Sign in with Google")
-        if st.button("Login with Google"):
-            st.login()
-        st.stop()
-
-    # --- Password Login Section ---
-    st.subheader("Or use your account credentials")
-
-    username = st.text_input("Enter your username:")
-    password = st.text_input("Enter your password:", type="password")
+    # Create two login sections: Google and Password
+    st.subheader("Choose your login method")
 
     col1, col2 = st.columns(2)
+
+    # --- Google Login ---
     with col1:
-        if st.button("Login"):
-            if login(username.strip(), password.strip()):
-                st.session_state.logged_in_user = username.strip()
-                st.success("✅ Login successful!")
-            else:
-                st.error("❌ Invalid username or password. Please try again.")
-    with col2:
-        if st.button("Sign up"):
-            register_user(username.strip(), password.strip())
-            st.success("🎉 Registered! You can now log in.")
-
-    # --- After login, show user info ---
-    if is_logged_in():
-        st.markdown(f"**Logged in as:** {current_user_name()}")
-        st.info("You can now use the sidebar to find buddies or delete info.")
-
-        if hasattr(st, "user") and st.user.is_logged_in:
+        st.markdown("### 🌐 Google Sign-In")
+        if hasattr(st, "user") and not st.user.is_logged_in:
+            if st.button("Login with Google"):
+                st.login()
+            st.info("Sign in using your Google account.")
+        elif hasattr(st, "user") and st.user.is_logged_in:
+            st.success(f"✅ Logged in as {st.user.name}")
             if st.button("Log out"):
                 st.logout()
                 st.experimental_rerun()
+
+    # --- Username/Password Login ---
+    with col2:
+        st.markdown("### 🔑 Password Login")
+
+        username = st.text_input("Username:")
+        password = st.text_input("Password:", type="password")
+
+        col_a, col_b = st.columns(2)
+        with col_a:
+            if st.button("Login"):
+                if login(username.strip(), password.strip()):
+                    st.session_state.logged_in_user = username.strip()
+                    st.success(f"✅ Welcome, {username.strip()}!")
+                else:
+                    st.error("❌ Invalid username or password.")
+        with col_b:
+            if st.button("Sign up"):
+                register_user(username.strip(), password.strip())
+                st.success("🎉 Account created! You can now log in.")
+
+    # --- Info after login ---
+    if is_logged_in():
+        st.markdown(f"**Logged in as:** {current_user_name()}")
+        st.info("You can now use the sidebar to find buddies or delete info.")
 
 
 # ----------------------
@@ -94,15 +101,9 @@ if st.session_state.page == "Login":
 elif st.session_state.page == "Find Buddy":
     if is_logged_in():
         st.markdown('<style>' + open('style.css').read() + '</style>', unsafe_allow_html=True)
-        st.title("🧑‍🤝‍🧑 Study Buddy Planner")
+        st.title("🧑‍🤝‍🧑 Find Your Study Buddy")
 
-        if hasattr(st, "user") and st.user.is_logged_in:
-            st.markdown(f"Welcome! Your name: **{st.user.name}**")
-            if st.button("Log out"):
-                st.logout()
-                st.experimental_rerun()
-        else:
-            st.markdown(f"Welcome! Your name: **{st.session_state.logged_in_user}**")
+        st.markdown(f"Welcome, **{current_user_name()}**!")
 
         col1, col2 = st.columns(2)
         with col1:
@@ -135,7 +136,7 @@ elif st.session_state.page == "Find Buddy":
                         f"({m['mode']}), Contact: {m['contact']}"
                     )
             else:
-                st.info("No matches yet. Come back later!")
+                st.info("No matches yet. Check back later!")
     else:
         st.session_state.page = "Login"
         st.warning("⚠️ Please log in first to access this page.")
@@ -150,7 +151,7 @@ elif st.session_state.page == "Delete Info":
         st.title("🗑️ Delete Your Saved Entries")
 
         username = st.text_input("Enter your username to list your entries:")
-        if st.button("Show my entries") and username.strip() and correct_user:
+        if st.button("Show my entries") and username.strip():
             entries = get_user_info_with_index(username.strip())
             if not entries:
                 st.info("No entries found for that username.")
