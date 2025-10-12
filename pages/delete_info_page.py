@@ -22,7 +22,3 @@ if st.button("Show my entries") and username.strip():
                         st.experimental_rerun()
                     else:
                         st.error("Failed to delete entry. It may have already been removed.")
-
-
-st.markdown("---")
-st.write("Tip: When you delete an entry, the CSV is rewritten. If multiple people are using the app concurrently, consider adding locking or moving to a small database.")
