@@ -118,14 +118,14 @@ elif st.session_state.page == "Find Buddy":
             time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
         with col4:
             name = st.text_input("Enter your name:")
-            if current_user_name != name:
-                correct_user = False
         with col5:
             privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
 
         contact = st.text_input("Contact information:")
 
         if st.button("Find Match"):
+            if current_user_name != name:
+                correct_user = False
             if privacy == "Yes":
                 new_user = {"name": name, "subject": subject, "time": time, "mode": mode, "contact": contact}
                 save_user(new_user)
