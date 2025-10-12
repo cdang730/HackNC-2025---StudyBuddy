@@ -5,34 +5,21 @@ import os
 
 
 def save_user(data, filename = "users.csv"):
-    """save user imput data into the user file"""
-    from pathlib import Path
-    import csv as _csv
-
-    # Always write next to this file (robust against changing CWD in Streamlit)
-    path = (Path(__file__).parent / filename).resolve()
-
-    # Write header if file doesn't exist or is empty
-    need_header = (not path.exists()) or (path.stat().st_size == 0)
+    """Save user input data into the user file (relative path; no local file paths)."""
+    import os
 
     fieldnames = ["name", "subject", "mode", "time", "contact"]
-    row = {k: (data.get(k, "") if isinstance(data, dict) else "") for k in fieldnames}
+    # Safely extract values and normalize
+    row = [str(data.get(k, "")).strip().replace("\n", " ") for k in fieldnames]
 
-    with path.open("a", newline="", encoding="utf-8") as file:
-        writer = _csv.DictWriter(file, fieldnames=fieldnames)
-        if need_header:
-            writer.writeheader()
-        writer.writerow(row)
-    file_exist = os.path.isfile(filename)
-    with open(filename, "a", newline = '', encoding = 'utf-8') as file:
+    # Write header if file does not exist or is empty
+    write_header = (not os.path.exists(filename)) or (os.path.getsize(filename) == 0)
+
+    with open(filename, "a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
-
-        # check if the file exists
-        if not file_exist:
-            writer.writerow(["name", "subject", "mode", "time", "contact"])
-
-        # write the user data row
-        writer.writerow([data["name"], data["subject"], data["mode"], data["time"], data["contact"]])
+        if write_header:
+            writer.writerow(fieldnames)
+        writer.writerow(row)
 
 
 def load_users(filename = "users.csv"):
