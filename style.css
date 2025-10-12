@@ -4,10 +4,10 @@ body, .stApp {
     text-align: center !important;
     
 }
-button[kind="primary"] {
+div.stButton {
     justify-content: center !important;
     margin: 0 auto !important;
-    background-color: blue;
+    background-color: blue !important;
 }
 h1 {
     font-style: oblique !important;
