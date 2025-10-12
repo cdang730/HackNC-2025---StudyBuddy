@@ -147,16 +147,26 @@ elif st.session_state.page == "Delete Info":
     if is_logged_in():
         st.title("🗑️ Delete Your Saved Entries")
 
-        username = st.text_input("Enter your username to list your entries:")
+        # Persist username and whether to show entries across reruns
+        show_entries = st.session_state.get("show_entries", False)
+        managed_username = st.session_state.get("managed_username", "")
 
-        if st.button("Show my entries", key="show_entries") and username.strip():
-            entries = get_user_info_with_index(username.strip())
+        username = st.text_input("Enter your username to list your entries:", value=managed_username)
+
+        if st.button("Show my entries", key="show_entries_btn") and username.strip():
+            st.session_state["show_entries"] = True
+            st.session_state["managed_username"] = username.strip()
+            st.rerun()
+
+        # Show list if flag is set
+        if st.session_state.get("show_entries", False) and st.session_state.get("managed_username"):
+            uname = st.session_state["managed_username"]
+            entries = get_user_info_with_index(uname)
             if not entries:
-                st.info("No entries found for that username.")
+                st.info(f"No entries found for {uname}.")
             else:
-                st.write(f"Found {len(entries)} entries for {username.strip()}:")
+                st.write(f"Found {len(entries)} entries for {uname}:")
                 for session in entries:
-                    # session is a dict from Supabase with an 'id'
                     row_id = session.get("id")
                     cols = st.columns([6, 1])
                     with cols[0]:
@@ -166,11 +176,19 @@ elif st.session_state.page == "Delete Info":
                         )
                     with cols[1]:
                         if st.button("Delete", key=f"delete_{row_id}"):
-                            if delete_info_by_index(row_id):
+                            if row_id is None:
+                                st.error("Missing row ID.")
+                            elif delete_info_by_index(row_id):
                                 st.success("✅ Deleted entry.")
-                                st.stop()  # Stop and re-render cleanly instead of st.rerun()
+                                st.rerun()  # reload the list after deletion
                             else:
-                                st.error("❌ Failed to delete entry. It may have already been removed.")
+                                st.error("❌ Failed to delete entry.")
+
+        # Optional: back to main list reset
+        if st.button("← Back"):
+            st.session_state["show_entries"] = False
+            st.session_state["managed_username"] = ""
+            st.rerun()
 
 else:
     st.session_state.page = "Login"
