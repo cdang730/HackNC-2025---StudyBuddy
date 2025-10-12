@@ -107,27 +107,25 @@ elif st.session_state.page == "Find Buddy":
 
         st.markdown(f"Welcome, **{current_user_name()}**!")
 
-        col1, col2 = st.columns(2)
-        with col1:
-            subject = st.selectbox("Subject: ", ["Math", "English", "History", "Science", "CS"])
-        with col2:
-            mode = st.radio("Mode: ", ["Virtual", "In-Person"])
-
-        col3, col4, col5 = st.columns(3)
-        with col3:
-            time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
-        with col4:
-            name = st.text_input("Enter your name:")
-        with col5:
-            privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
-
         contact = st.text_input("Contact information:")
 
         if st.button("Find Match"):
-            if current_user_name != name:
-                correct_user = False
-            elif current_user_name == name:
-                correct_user = True
+            col1, col2 = st.columns(2)
+            with col1:
+                subject = st.selectbox("Subject: ", ["Math", "English", "History", "Science", "CS"])
+            with col2:
+                mode = st.radio("Mode: ", ["Virtual", "In-Person"])
+                col3, col4, col5 = st.columns(3)
+            with col3:
+                time = st.selectbox("Study Time: ", ["Morning", "Afternoon", "Evening"])
+            with col4:
+                name = st.text_input("Enter your name:")
+            with col5:
+                privacy = st.selectbox("Do you want others to find you?", ["Yes", "No"])
+                if current_user_name != name:
+                    correct_user = False
+                elif current_user_name == name:
+                    correct_user = True
             if privacy == "Yes":
                 new_user = {"name": name, "subject": subject, "time": time, "mode": mode, "contact": contact}
                 save_user(new_user)
