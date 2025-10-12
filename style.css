@@ -1,8 +1,13 @@
 body {
     background-color: #00bfff !important;
     color: white !important;
-    h1 {
+    
+}
+.st-key-welcome_login {
     font-style: oblique !important;
     color: darkorchid !important;
 }
+.st-key-login_button {
+    background-color: #00bfff;
+    color: aliceblue;
 }
