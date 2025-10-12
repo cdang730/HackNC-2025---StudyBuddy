@@ -12,7 +12,7 @@ if not st.user.is_logged_in:
         import login_page as app_module
         if hasattr(app_module, "main"):
             app_module.main()
-    st.stop()
+    # st.stop()
 
 
 if st.button("Log out"):
