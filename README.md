@@ -24,6 +24,7 @@ As leveling up in college, students may want to connect and study together for t
 - Create Streamlit and put those Streamlit command to run. 
 - Did small encryption from hashlib, used hashlib.sha256 to encrypt users' master password on the login by password page.  
 - Helped with debugging the Google login and delete features
+- Helped implement Supabase with our existing code
 
 
 ## ❤️ Credits  
