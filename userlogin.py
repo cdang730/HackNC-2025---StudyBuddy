@@ -1,10 +1,10 @@
 import json
 import hashlib
 from pathlib import Path
-import os
 
 
-# File paths
+
+# File patshs
 USER_DATA_FILE = Path("data/user_data.json")
 
 def register_user(username: str, master_password: str) -> None:
